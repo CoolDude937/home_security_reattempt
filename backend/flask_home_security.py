@@ -7,11 +7,47 @@ import face_recognition
 app=Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 CORS(app, resources={r"/*":{'origins':"http://localhost:8080/face-recognition"}})
+import psycopg2
+
+# Connect to the PostgreSQL database
+conn = psycopg2.connect(
+    dbname="postgres",
+    user="postgres",
+    password="andypostgrespassword369",
+    host="localhost",
+    port="5432"
+)
+
+# Create a cursor object to execute SQL queries
+cursor = conn.cursor()
+
+# Execute a SELECT query to retrieve id, name, and encoding from the users table
+cursor.execute("SELECT id, name, face_encoding FROM users;")
+
+# Fetch all rows from the result set
+rows = cursor.fetchall()
+
+andy_name = None
+andy_face_encoding = None
+
+# Process each row
+for row in rows:
+    id = row[0]  # Get the id from the first column
+    name = row[1]  # Get the name from the second column
+    encoding_bytes = row[2]  # Get the encoding (as bytes) from the third column
+
+    # Convert the encoding bytes to a NumPy array
+    encoding = face_recognition.api.np.frombuffer(encoding_bytes, dtype=float)
+
+    if name == "Andy":
+        andy_name = name
+        andy_face_encoding = encoding
+
+# Close the cursor and connection
+cursor.close()
+conn.close()
 
 video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-
-andy_image = face_recognition.load_image_file("andy_neutral_small.jpg")
-andy_face_encoding = face_recognition.face_encodings(andy_image)[0]
 
 joseph_image = face_recognition.load_image_file("joseph_neutral_small.jpg")
 joseph_face_encoding = face_recognition.face_encodings(joseph_image)[0]
@@ -30,7 +66,7 @@ known_face_encodings = [
     liudan_face_encoding
 ]
 known_face_names = [
-    "Andy Ma",
+    andy_name,
     "Joseph Ma",
     "Chuan Ma",
     "Liu Dan"

@@ -7,7 +7,7 @@ docker run --name postgres_container -d -p 5432:5432 my-postgres-image <- how to
 
 STUFF FOR DATABASE COMMANDS
 docker ps <- checks all running containers
-docker exec -it my-postgres-container psql -U postgres <- used to start up the database interaction
+docker exec -it andy_postgres_container psql -U postgres <- used to start up the database interaction
 \c andy_database <- to connect to the database
 select * from "user"; <- to open up the table REMEMBER THE EFFING DOUBLE QUOTES OR ELSE IT WILL OPEN SOMETHING ELSE
 
@@ -16,3 +16,14 @@ git status <- status of altered and staged commits
 git add <file> <- stage a file for commit
 git commit --amend <- commit a change, --amend is optional if you want to replace changes as opposed to just creating a new commit
 git push -f <- push the change to github repository (it is safe now), -f is if you want to force the change in case there is a problem otherwise
+git rm --cached backend/*.jpg <- delete files from repository (make sure to commit deletion)
+
+EXAMPLE OF SQL COMMANDS
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+INSERT INTO users (username, email) VALUES ('john_doe', 'john@example.com');
+INSERT INTO users (username, email) VALUES ('jane_doe', 'jane@example.com');
