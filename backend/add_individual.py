@@ -1,13 +1,20 @@
 import psycopg2
 import face_recognition
+import os
+
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
+DB_HOST = os.getenv('DB_HOST')
+DB_PORT = os.getenv('DB_PORT')
 
 # Connect to the PostgreSQL database
 conn = psycopg2.connect(
-    dbname="postgres",
-    user="postgres",
-    password="andypostgrespassword369",
-    host="localhost",
-    port="5432"
+        dbname=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        host=DB_HOST,
+        port=DB_PORT
 )
 
 # Load the face encoding data
@@ -19,7 +26,7 @@ face_encoding_bytes = andy_face_encoding.tobytes()
 
 # Insert the face encoding data into the database
 cursor = conn.cursor()
-insert_query = "INSERT INTO users (name, face_encoding) VALUES (%s, %s)"
+insert_query = "INSERT INTO face_encodings (name, encoding) VALUES (%s, %s)"
 cursor.execute(insert_query, ("Andy", psycopg2.Binary(face_encoding_bytes)))
 conn.commit()
 

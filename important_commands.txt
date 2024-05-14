@@ -1,15 +1,18 @@
 npx prettier --write "src/components/UserList.vue" <- an example of how to prettier a file so that there are no stupid prettier errors
 npm run serve <- how to start a vue App
-flask --app home_security_app run <- an example of how to start a flask app
+flask --app flask_home_security run <- an example of how to start a flask app
 $env:FLASK_APP = "home_security_app.py" <- how to initiate a flask shell (in command prompt)
-docker buildx build -t my-postgres-image . <- how to build a docker container. Yes, the . is necessary. It indicates current directory.
+docker buildx build -t my-postgres-image . <- how to build a docker image. Yes, the . is necessary. It indicates current directory.
 docker run --name postgres_container -d -p 5432:5432 my-postgres-image <- how to run one
 
 STUFF FOR DATABASE COMMANDS
 docker ps <- checks all running containers
-docker exec -it andy_postgres_container psql -U postgres <- used to start up the database interaction
+docker exec -it andy-postgres-container psql -U postgres <- used to start up the database interaction
 \c andy_database <- to connect to the database
 select * from "user"; <- to open up the table REMEMBER THE EFFING DOUBLE QUOTES OR ELSE IT WILL OPEN SOMETHING ELSE
+
+*Note: do not know how to properly create tables yet. Only option so far is to docker exec into interaction mode and then manually create tables using the
+command line interface provided.
 
 STUFF FOR GIT COMMANDS
 git status <- status of altered and staged commits
